@@ -9,10 +9,14 @@ CFLAGS := -Wall -Wextra -Wpedantic
 
 CC?=gcc
 
-all: $(TARGET)
+build: $(TARGET)
 
 $(TARGET): $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET)
+
+install: build
+	mv $(TARGET) /usr/local/bin/
+	mv src/timeplanner.py /usr/local/bin/
 
 clean:
 	rm -rf $(OBJ)
