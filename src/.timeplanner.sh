@@ -22,5 +22,7 @@ function precmd_timeplanner() {
 }
 
 function timeplanner_clear() {
+    echo "Are you sure ? (Ctrl+C if no)"
+    read -r
     true > "$TIMEPLANNER_PATH"
 }
