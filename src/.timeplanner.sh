@@ -10,12 +10,12 @@ function preexec_timeplanner() {
 }
 
 function precmd_timeplanner() {
-    local cmd_end="$SECONDS"
-    elapsed=$((cmd_end-cmd_start))
-    git_branch=$(git branch --show-current)
+    git_branch=$(git branch --show-current 2>/dev/null)
     if [[ "$git_branch" == "" ]]; then
         return
     fi
+    local cmd_end="$SECONDS"
+    elapsed=$((cmd_end-cmd_start))
     directory_name=$(git rev-parse --show-toplevel)
     msg="['$directory_name', '$git_branch', '$elapsed', '$cmd_cmd']"
     echo "$msg" >> "$TIMEPLANNER_PATH"
