@@ -17,7 +17,7 @@ function _precmd_timeplanner() {
     local cmd_end="$SECONDS"
     elapsed=$((cmd_end-cmd_start))
     directory_name=$(git rev-parse --show-toplevel)
-    msg="['$directory_name', '$git_branch', '$elapsed', '$cmd_cmd']"
+    msg="['$directory_name', '$git_branch', '$elapsed', '$cmd_cmd', '$(date "+%Y-%m-%d %H:%M:%S")']"
     echo "$msg" >> "$TIMEPLANNER_PATH"
 }
 
