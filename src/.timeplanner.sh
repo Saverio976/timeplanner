@@ -36,7 +36,7 @@ function timeplanner_path() {
 }
 
 function timeplanner_output_time() {
-    echo "Not Implemented... to be continued"
+    timeplanner.py "$TIMEPLANNER_PATH"
 }
 
 function timeplanner_help() {

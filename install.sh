@@ -24,6 +24,10 @@ function install_timeplanner() {
 
     cp "./src/.timeplanner.sh" "$FOLDER_CONFIG_SHELL"
 
+    set -x
+    sudo cp "./src/timeplanner.py" "/usr/local/bin"
+    set +x
+
     if [[ "$SHELL" == *"bash"* ]]; then
         {
             echo "$include_preexec";
@@ -44,6 +48,10 @@ function install_timeplanner() {
 
 function uninstall_timeplanner() {
     rm -rf "$FILEPREEXEC_PATH" "$FOLDER_CONFIG_SHELL/.timeplanner.sh"
+
+    set -x
+    sudo rm -f "/usr/local/timeplanner.py"
+    set +x
 
     if [[ "$SHELL" == *"bash"* ]]; then
         sed -i "\|$(echo "$include_preexec" | sed 's/\//\\\//g')/d" "$FOLDER_CONFIG_SHELL/.bashrc"
