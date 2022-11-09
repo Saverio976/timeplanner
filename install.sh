@@ -18,50 +18,60 @@ function install_timeplanner() {
     uninstall_timeplanner
 
     if [[ "$SHELL" == *"bash"* ]]; then
+        set -x
         curl -Lo "$FILEPREEXEC_PATH" \
             'https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh'
+        set +x
     fi
 
+    set -x
     cp "./src/.timeplanner.sh" "$FOLDER_CONFIG_SHELL"
 
-    set -x
     sudo cp "./src/timeplanner.py" "/usr/local/bin"
     set +x
 
     if [[ "$SHELL" == *"bash"* ]]; then
+        set -x
         {
             echo "$include_preexec";
             echo "$include_timeplanner";
             echo "$include_add_preexec";
             echo "$include_add_precmd";
         } >> "$FOLDER_CONFIG_SHELL/.bashrc"
+        set +x
     elif [[ "$SHELL" == *"zsh"* ]]; then
+        set -x
         {
             echo "$include_timeplanner";
             echo "$include_add_preexec";
             echo "$include_add_precmd";
         } >> "$FOLDER_CONFIG_SHELL/.zshrc"
+        set +x
     else
         echo "could not find your shell (bash/zsh/...?)"
     fi
 }
 
 function uninstall_timeplanner() {
+    set -x
     rm -rf "$FILEPREEXEC_PATH" "$FOLDER_CONFIG_SHELL/.timeplanner.sh"
 
-    set -x
     sudo rm -f "/usr/local/timeplanner.py"
     set +x
 
     if [[ "$SHELL" == *"bash"* ]]; then
+        set -x
         sed -i "\|$(echo "$include_preexec" | sed 's/\//\\\//g')/d" "$FOLDER_CONFIG_SHELL/.bashrc"
         sed -i "\|$(echo "$include_timeplanner" | sed 's/\//\\\//g')|d" "$FOLDER_CONFIG_SHELL/.bashrc"
         sed -i "\|$(echo "$include_add_preexec" | sed 's/\//\\\//g')|d" "$FOLDER_CONFIG_SHELL/.bashrc"
         sed -i "\|$(echo "$include_add_precmd" | sed 's/\//\\\//g')|d" "$FOLDER_CONFIG_SHELL/.bashrc"
+        set +x
     elif [[ "$SHELL" == *"zsh"* ]]; then
+        set -x
         sed -i "\|$(echo "$include_timeplanner" | sed 's/\//\\\//g')|d" "$FOLDER_CONFIG_SHELL/.zshrc"
         sed -i "\|$(echo "$include_add_preexec" | sed 's/\//\\\//g')|d" "$FOLDER_CONFIG_SHELL/.zshrc"
         sed -i "\|$(echo "$include_add_precmd" | sed 's/\//\\\//g')|d" "$FOLDER_CONFIG_SHELL/.zshrc"
+        set +x
     else
         echo "could not find your shell (bash/zsh/...?)"
     fi
