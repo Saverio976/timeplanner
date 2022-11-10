@@ -19,12 +19,10 @@ if TIMEPLANNER_PATH is None:
     sys.exit(1)
 
 
-def is_time_between(begin_time, end_time, check_time=None):
-    check_time = check_time or datetime.utcnow().time()
-    if begin_time < end_time:
-        return check_time >= begin_time and check_time <= end_time
-    else:
-        return check_time >= begin_time or check_time <= end_time
+def is_time_between(begin_time: datetime, end_time: datetime, check_time: datetime):
+    if check_time > begin_time and check_time < end_time:
+        return True
+    return False
 
 
 class Cmd:
@@ -93,13 +91,10 @@ class Branch:
             if (
                 is_time_between(start_a, end_a, start_b)
                 or is_time_between(start_a, end_a, end_b)
-                or (
-                    not is_time_between(start_a, end_a, start_b)
-                    and not is_time_between(start_a, end_a, end_b)
-                )
+                or (start_b < start_a and end_b > end_a)
             ):
                 tmp_nodes[i] = Cmd(
-                    "", min(start_a, start_b) - max(end_a, end_b), max(end_a, end_b)
+                    "", max(end_a, end_b) - min(start_a, start_b), max(end_a, end_b)
                 )
                 tmp_nodes.pop(i + 1)
             else:
@@ -108,7 +103,6 @@ class Branch:
             self.ellapsed.append(ElapsedTime(node.end_date, node.start_date))
 
     def to_table(self):
-        print(self.name)
         self.nodes_to_ellapsed()
         by_day: List[List[ElapsedTime]] = [[] for _ in range(31)]
         for elapse in self.ellapsed:
