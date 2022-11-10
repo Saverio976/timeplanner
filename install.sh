@@ -15,7 +15,7 @@ include_add_preexec='preexec_functions+=(_preexec_timeplanner)'
 include_add_precmd='precmd_functions+=(_precmd_timeplanner)'
 
 function install_timeplanner() {
-    uninstall_timeplanner
+    uninstall_timeplanner "install"
 
     if [[ "$SHELL" == *"bash"* ]]; then
         set -x
@@ -54,7 +54,10 @@ function install_timeplanner() {
 
 function uninstall_timeplanner() {
     set -x
-    rm -rf "$FILEPREEXEC_PATH" "$FOLDER_CONFIG_SHELL/.timeplanner.sh"
+    rm -rf "$FILEPREEXEC_PATH"
+    if [[ "$1" != "install" ]]; then
+        rm -rf "$FOLDER_CONFIG_SHELL/.timeplanner.sh"
+    fi
 
     sudo rm -f "/usr/local/timeplanner.py"
     set +x
