@@ -9,10 +9,14 @@ fi
 
 FILEPREEXEC_PATH="$FOLDER_CONFIG_SHELL/.bash-preexec.sh"
 
-include_preexec="source '$FILEPREEXEC_PATH'"
-include_timeplanner="source '$FOLDER_CONFIG_SHELL/.timeplanner.sh'"
+COND_SINEQUANON="[[ -f '$FOLDER_CONFIG_SHELL/.timeplanner.sh' ]]"
+
+include_preexec="$COND_SINEQUANON && source '$FILEPREEXEC_PATH'"
+include_timeplanner="$COND_SINEQUANON && source '$FOLDER_CONFIG_SHELL/.timeplanner.sh'"
 include_add_preexec='preexec_functions+=(_preexec_timeplanner)'
+include_add_preexec="$COND_SINEQUANON && $include_add_preexec"
 include_add_precmd='precmd_functions+=(_precmd_timeplanner)'
+include_add_precmd="$COND_SINEQUANON && $include_add_precmd"
 
 function install_timeplanner() {
     uninstall_timeplanner "install"
