@@ -85,7 +85,7 @@ function uninstall_timeplanner() {
 }
 
 function help_timeplanner() {
-    echo "USAGE: ./install.sh [install | uninstall]"
+    echo "USAGE: ./install.sh [install | uninstall | --help]"
 }
 
 if [[ "$1" == "install" ]]; then

@@ -173,6 +173,8 @@ for line in file.readlines():
     else:
         projects[index].add_cmd(info[1], cmd)
 
+file.close()
+
 for project in projects:
     print(project.path)
     for branch_name, dates in project.to_table().items():
@@ -185,5 +187,3 @@ for project in projects:
         total = timedelta(days=d, hours=h, minutes=m)
         print(f"{branch_name}:: total:: {total}")
     print()
-
-file.close()
